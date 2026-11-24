@@ -62,14 +62,21 @@ This is the project's working memory and daily handover history. Entries are rec
 - Resolved mental model gaps by breaking down Catch-All API route and Better Auth mechanics through real-world analogies.
 
 **Current Status:**
-- Database layer & Backend Auth engine 100% complete. Ready for Frontend Auth Client & UI forms.
+- Database layer & Backend Auth engine 100% complete and committed (`ee33a97`).
+- Working tree is clean on branch `feature/v2-authentication`.
+- Incomplete work: Frontend Auth Client and UI forms pending.
 
 **Next Session — Exact Starting Point:**
-1. Commit backend auth files and updated docs on `feature/v2-authentication`.
-2. Create Frontend Auth Client: `src/lib/auth-client.ts`.
-3. Build Sign Up (Register) page: `src/app/register/page.tsx`.
-4. Build Sign In (Login) page: `src/app/login/page.tsx`.
-5. Test account creation and login live in the browser!
+1. Branch Check: On `feature/v2-authentication` (Commit: `ee33a97`).
+2. Optional Sync: Run `git push -u origin feature/v2-authentication` if cloud backup on GitHub is desired.
+3. Task 1 (Immediate Next File): Create Frontend Auth Client in `src/lib/auth-client.ts`:
+   ```ts
+   import { createAuthClient } from "better-auth/react";
+   export const authClient = createAuthClient();
+   ```
+4. Task 2: Build Sign Up (Register) page in `src/app/register/page.tsx` with name, email, password fields using `authClient.signUp.email(...)`.
+5. Task 3: Build Sign In (Login) page in `src/app/login/page.tsx` using `authClient.signIn.email(...)`.
+6. Task 4: Run `npm run dev` and test registration and login live in browser at `http://localhost:3000`.
 
 ---
 
