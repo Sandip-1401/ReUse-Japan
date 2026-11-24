@@ -10,7 +10,10 @@
 - **UI Library:** React 19
 - **Language:** TypeScript 5
 - **Styling:** Tailwind CSS v4
-- **Git Workflow:** Feature Branch Workflow (GitHub Flow) with stable `main`
+- **Database:** PostgreSQL (Neon Serverless, Asia Tokyo `ap-northeast-1`)
+- **ORM:** Drizzle ORM
+- **Auth Engine:** Better Auth (Server instance: `src/lib/auth.ts`, Route: `src/app/api/auth/[...all]/route.ts`)
+- **Git Workflow:** Feature Branch Workflow (`feature/v2-authentication`)
 
 ---
 
@@ -24,29 +27,43 @@ D:\ReUse-Japan\
 │   ├── ARCHITECTURE.md
 │   ├── DATABASE.md
 │   └── DEVELOPMENT_LOG.md
-├── public\                   # Static assets (favicons)
-│   └── (boilerplate SVGs removed)
+├── public\                   # Static assets
 ├── src\
-│   └── app\                  # Next.js App Router root
-│       ├── favicon.ico
-│       ├── globals.css       # Tailwind CSS v4 directives & font declarations
-│       ├── layout.tsx        # Semantic root layout & ReUse Japan metadata
-│       └── page.tsx          # Clean V1 baseline landing view
+│   ├── app\                  # Next.js App Router root
+│   │   ├── api\
+│   │   │   └── auth\
+│   │   │       └── [...all]\
+│   │   │           └── route.ts   # Better Auth Catch-All API Handler
+│   │   ├── favicon.ico
+│   │   ├── globals.css       # Tailwind CSS v4 directives
+│   │   ├── layout.tsx        # Root layout & ReUse Japan metadata
+│   │   └── page.tsx          # V1 baseline landing view
+│   ├── db\                   # Database layer
+│   │   ├── schema\
+│   │   │   ├── auth.ts       # Auth tables (user, session, account, verification)
+│   │   │   └── index.ts      # Schema barrel export
+│   │   └── index.ts          # Drizzle client instance (Neon HTTP driver)
+│   └── lib\                  # Shared utilities & configurations
+│       └── auth.ts           # Better Auth server configuration
+├── .env.local                # Local environment secrets (DATABASE_URL, BETTER_AUTH_SECRET)
 ├── .gitignore
+├── drizzle.config.ts         # Drizzle CLI configuration
 ├── eslint.config.mjs
 ├── next.config.ts
-├── package.json              # Package name: reuse-japan
+├── package.json              # Dependencies: drizzle-orm, @neondatabase/serverless, better-auth
 └── tsconfig.json
 ```
 
 ---
 
 ## 3. Server / Client Boundaries
-- All pages remain default React Server Components (RSC).
-- No client components (`"use client"`) introduced yet (no client-side interactivity required for V1 foundation).
+- `src/lib/auth.ts`: Server-only authentication engine (handles hashing, tokens, DB writes).
+- `src/app/api/auth/[...all]/route.ts`: Server Route Handler exposing auth endpoints.
+- Client auth client (`src/lib/auth-client.ts`) pending next step for browser-side interactions.
 
 ---
 
 ## 4. Backend & Data Layer Status
-- No backend endpoints, server actions, or database connections configured yet.
-- Ready for V2 (Authentication & User Accounts with PostgreSQL / Drizzle ORM).
+- **PostgreSQL Database:** Live on Neon Tokyo Cloud.
+- **Tables Synced:** `user`, `session`, `account`, `verification`.
+- **API Endpoints:** Live under `/api/auth/*` (handled by Better Auth).

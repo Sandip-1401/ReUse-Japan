@@ -55,3 +55,25 @@ This log preserves all major decisions, their rationale, alternatives considered
   - Direct commits to `main` (Amateur practice; risks broken builds and unvetted code).
   - Complex GitFlow (`develop`, `release`, `hotfix` branches) (Over-engineering for a single-developer learning portfolio).
 - **Trade-offs:** Requires discipline of branching, testing, and merging for each discrete feature.
+
+---
+
+### Decision 006: Serverless PostgreSQL Database (Neon Tokyo Region)
+- **Date:** 2026-11-25  
+- **Decision:** Use Neon Serverless PostgreSQL hosted in Asia (Tokyo - `ap-northeast-1`) region with `@neondatabase/serverless` driver.
+- **Reason:** 100% free tier (strictly complies with ¥0 budget constraint), zero local PostgreSQL service overhead, native connectionless HTTP querying (prevents pool exhaustion in Next.js Serverless runtime), and Tokyo region minimizes network latency for Japanese market workflows.
+- **Alternatives Considered:**
+  - Local PostgreSQL only (Works on local machine but cannot easily be demoed on live portfolio deployments).
+  - Supabase (Heavier setup, Neon is lighter and dedicated directly to Postgres).
+- **Trade-offs:** Requires internet connection during development to run Drizzle migrations/push.
+
+---
+
+### Decision 007: Authentication via Better Auth & Progressive Profiling (Approach B)
+- **Date:** 2026-11-25  
+- **Decision:** Use Better Auth as the core authentication engine with Drizzle adapter. Adopt Approach B (Progressive Profiling, Mercari standard): minimal registration friction (Name, Email, Password) while keeping Japan-specific delivery/pickup fields (`phone`, `postalCode`, `prefecture`, `city`, `addressLine`) nullable in `user` schema to be collected progressively at listing/checkout.
+- **Reason:** High signup conversion, matches modern Japanese C2C marketplaces (Mercari, Rakuma), and Better Auth provides full type safety, built-in password hashing (scrypt/argon2), and seamless support for Google OAuth.
+- **Alternatives Considered:**
+  - Heavy Upfront Signup (Approach A) (High drop-off rate; asking for full postal address before user even browses).
+  - NextAuth / Auth.js (More complex configuration and breaking changes across versions).
+- **Trade-offs:** Checkout and listing creation workflows must validate that required shipping/pickup profile fields are completed before finalizing transactions.

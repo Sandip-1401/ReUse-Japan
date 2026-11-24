@@ -4,6 +4,75 @@ This is the project's working memory and daily handover history. Entries are rec
 
 ---
 
+### Development Session — 2026-11-25
+
+**Version:** V2 — Authentication & User Accounts  
+**Feature:** Database Integration (Neon Postgres + Drizzle ORM) & Better Auth Core Backend  
+**Objective:** Connect to Neon Cloud Postgres (Tokyo region), define Drizzle Auth schema, push tables live to database, configure Better Auth server instance, and setup Next.js Catch-All API Route handler.
+
+**Work Completed:**
+- Switched to dedicated feature branch: `feature/v2-authentication`.
+- Configured Neon Serverless PostgreSQL (Tokyo `ap-northeast-1` region) via `.env.local`.
+- Installed core database & auth dependencies: `drizzle-orm`, `@neondatabase/serverless`, `drizzle-kit`, `dotenv`, and `better-auth`.
+- Created `drizzle.config.ts` and initialized Drizzle client in `src/db/index.ts`.
+- Designed and wrote Drizzle Auth schema in `src/db/schema/auth.ts` with Approach B (Progressive Profiling for Japan marketplace localized fields: phone, postal code, prefecture, city, address line).
+- Successfully pushed all 4 tables live to Neon database via `npx drizzle-kit push`.
+- Created Better Auth server configuration in `src/lib/auth.ts` with Drizzle adapter and additional custom user fields.
+- Implemented Next.js Catch-All Route handler in `src/app/api/auth/[...all]/route.ts`.
+- Updated all persistent documentation: `docs/DATABASE.md`, `docs/DECISIONS.md`, `docs/ARCHITECTURE.md`, and `docs/DEVELOPMENT_LOG.md`.
+
+**Files Created:**
+- `drizzle.config.ts`
+- `src/db/index.ts`
+- `src/db/schema/auth.ts`
+- `src/db/schema/index.ts`
+- `src/lib/auth.ts`
+- `src/app/api/auth/[...all]/route.ts`
+
+**Files Modified:**
+- `package.json`
+- `package-lock.json`
+- `docs/DATABASE.md`
+- `docs/DECISIONS.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DEVELOPMENT_LOG.md`
+
+**Files Deleted:**
+- None.
+
+**Database Changes:**
+- Created 4 tables on Neon PostgreSQL (Tokyo):
+  - `user` (Core auth fields + Japan delivery/pickup progressive profile fields).
+  - `session` (Active user session tokens & expiry).
+  - `account` (Hashed passwords for credentials and OAuth provider links).
+  - `verification` (Temporary verification tokens).
+
+**Technical Concepts Learned:**
+- **Neon Serverless PostgreSQL:** HTTP/WebSocket connectionless querying avoiding serverless connection pool exhaustion.
+- **Drizzle ORM Relational Schema:** Defining type-safe tables with `pgTable` and cascading foreign key relations.
+- **Progressive Profiling (Mercari Pattern):** Minimizing signup drop-off by making localized shipping/pickup fields nullable during initial registration.
+- **Next.js Catch-All API Route (`[...all]`):** Routing all `/api/auth/*` requests to a single handler using `toNextJsHandler(auth.handler)`.
+
+**Testing:**
+- Verified `npx drizzle-kit push` succeeded: `[✓] Pulling schema from database... [✓] Changes applied`.
+- Verified schema presence and relational references.
+
+**Problems and Resolutions:**
+- Fixed typo in `drizzle.config.ts` (`DATABAS_URL` -> `DATABASE_URL`).
+- Resolved mental model gaps by breaking down Catch-All API route and Better Auth mechanics through real-world analogies.
+
+**Current Status:**
+- Database layer & Backend Auth engine 100% complete. Ready for Frontend Auth Client & UI forms.
+
+**Next Session — Exact Starting Point:**
+1. Commit backend auth files and updated docs on `feature/v2-authentication`.
+2. Create Frontend Auth Client: `src/lib/auth-client.ts`.
+3. Build Sign Up (Register) page: `src/app/register/page.tsx`.
+4. Build Sign In (Login) page: `src/app/login/page.tsx`.
+5. Test account creation and login live in the browser!
+
+---
+
 ### Development Session — 2026-11-24
 
 **Version:** V1 — Project Foundation  
@@ -59,7 +128,7 @@ This is the project's working memory and daily handover history. Entries are rec
 - V1 (Project Foundation) completed and verified. Ready to begin V2 (Authentication & User Accounts).
 
 **Next Session — Exact Starting Point:**
-1. Create feature branch for V2: `feature/v2-auth-better-auth`.
+1. Create feature branch for V2: `feature/v2-authentication`.
 2. Define V2 User requirements (Unified buyer/seller fields, email/password vs OAuth).
 3. Evaluate and configure zero-cost database layer (PostgreSQL + Drizzle ORM) and authentication library (Better Auth).
 4. Inspect `docs/DATABASE.md` and plan the first non-speculative schema: `users` and `sessions` tables.
