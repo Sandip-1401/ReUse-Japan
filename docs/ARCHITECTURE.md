@@ -5,10 +5,12 @@
 ---
 
 ## 1. High-Level Overview
-- **Framework:** Next.js (App Router, currently Next 16)
+- **Application Name:** ReUse Japan (`reuse-japan`)
+- **Framework:** Next.js 16 (App Router with Turbopack)
 - **UI Library:** React 19
 - **Language:** TypeScript 5
 - **Styling:** Tailwind CSS v4
+- **Git Workflow:** Feature Branch Workflow (GitHub Flow) with stable `main`
 
 ---
 
@@ -22,27 +24,29 @@ D:\ReUse-Japan\
 │   ├── ARCHITECTURE.md
 │   ├── DATABASE.md
 │   └── DEVELOPMENT_LOG.md
-├── public\                   # Static assets (favicons, svgs)
+├── public\                   # Static assets (favicons)
+│   └── (boilerplate SVGs removed)
 ├── src\
 │   └── app\                  # Next.js App Router root
 │       ├── favicon.ico
-│       ├── globals.css       # Tailwind CSS v4 directives
-│       ├── layout.tsx        # Root HTML layout
-│       └── page.tsx          # Initial home page (Next.js boilerplate)
+│       ├── globals.css       # Tailwind CSS v4 directives & font declarations
+│       ├── layout.tsx        # Semantic root layout & ReUse Japan metadata
+│       └── page.tsx          # Clean V1 baseline landing view
 ├── .gitignore
 ├── eslint.config.mjs
 ├── next.config.ts
-├── package.json
+├── package.json              # Package name: reuse-japan
 └── tsconfig.json
 ```
 
 ---
 
 ## 3. Server / Client Boundaries
-- Currently all pages remain default Server Components where applicable.
-- No client components (`"use client"`) introduced yet.
+- All pages remain default React Server Components (RSC).
+- No client components (`"use client"`) introduced yet (no client-side interactivity required for V1 foundation).
 
 ---
 
 ## 4. Backend & Data Layer Status
-- No backend endpoints, server actions, or database connections configured yet (V1 foundation pending).
+- No backend endpoints, server actions, or database connections configured yet.
+- Ready for V2 (Authentication & User Accounts with PostgreSQL / Drizzle ORM).

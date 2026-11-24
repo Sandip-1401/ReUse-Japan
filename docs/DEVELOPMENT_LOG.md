@@ -4,6 +4,68 @@ This is the project's working memory and daily handover history. Entries are rec
 
 ---
 
+### Development Session — 2026-11-24
+
+**Version:** V1 — Project Foundation  
+**Feature:** Boilerplate Cleanup, Baseline Layout & Feature Branch Workflow  
+**Objective:** Clean up Create Next App demo code, update package branding, establish metadata and root layout, implement clean landing baseline, and establish industry-standard Git workflow.
+
+**Work Completed:**
+- Adopted industry-standard Git feature branch workflow (GitHub Flow); created and operated on `feature/v1-project-foundation`.
+- Updated `package.json` application name to `reuse-japan`.
+- Removed unused starter SVG assets from `public/` (`file.svg`, `globe.svg`, `next.svg`, `vercel.svg`, `window.svg`).
+- Cleaned up font variables and theme styling in `src/app/globals.css`.
+- Configured type-safe `RootLayout` and metadata branding in `src/app/layout.tsx`.
+- Implemented clean, semantic V1 baseline landing view in `src/app/page.tsx`.
+- Ran full production build and TypeScript verification (`npm run build`).
+- Committed changes on `feature/v1-project-foundation` and merged into `main`.
+- Documented Decision 005 (Git Branching) in `docs/DECISIONS.md` and updated `docs/ARCHITECTURE.md`.
+
+**Files Created:**
+- None.
+
+**Files Modified:**
+- `package.json`
+- `src/app/globals.css`
+- `src/app/layout.tsx`
+- `src/app/page.tsx`
+- `docs/DECISIONS.md`
+- `docs/ARCHITECTURE.md`
+- `docs/DEVELOPMENT_LOG.md`
+
+**Files Deleted:**
+- `public/file.svg`
+- `public/globe.svg`
+- `public/next.svg`
+- `public/vercel.svg`
+- `public/window.svg`
+
+**Database Changes:**
+- None.
+
+**Technical Concepts Learned:**
+- **GitHub Flow / Feature Branch Workflow:** Preserving `main` as a clean, deployable branch while isolating development in dedicated feature branches.
+- **Next.js App Router RootLayout Lifecycle:** How `layout.tsx` acts as a persistent wrapper without re-rendering while route contents swap within `children`.
+- **Developer Ownership & Mentorship Dynamics:** Clear separation where the developer retains terminal and implementation ownership while the AI acts as architect, requirements planner, and reviewer.
+
+**Testing:**
+- Executed `npm run build`: Turbopack build succeeded in 1.6s, TypeScript finished in 2.9s, static page generation (4/4) completed with 0 errors and 0 warnings.
+- Verified clean git working tree on `main` via `git status` and `git log`.
+
+**Problems and Resolutions:**
+- Realigned working workflow to strictly enforce developer-led implementation and terminal command execution per Project Master Context guidelines.
+
+**Current Status:**
+- V1 (Project Foundation) completed and verified. Ready to begin V2 (Authentication & User Accounts).
+
+**Next Session — Exact Starting Point:**
+1. Create feature branch for V2: `feature/v2-auth-better-auth`.
+2. Define V2 User requirements (Unified buyer/seller fields, email/password vs OAuth).
+3. Evaluate and configure zero-cost database layer (PostgreSQL + Drizzle ORM) and authentication library (Better Auth).
+4. Inspect `docs/DATABASE.md` and plan the first non-speculative schema: `users` and `sessions` tables.
+
+---
+
 ### Development Session — 2026-11-23
 
 **Version:** V0 — Product Planning  

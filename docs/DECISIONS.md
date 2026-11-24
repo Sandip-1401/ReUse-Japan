@@ -44,3 +44,14 @@ This log preserves all major decisions, their rationale, alternatives considered
   - Prisma (Heavier binary footprint compared to lightweight SQL-like Drizzle ORM).
   - MongoDB (Relational integrity and transactions are critical for order/inventory safety in e-commerce).  
 - **Trade-offs:** Relational schema requires careful migration management via Drizzle.
+
+---
+
+### Decision 005: Industry-Standard Git Branching (GitHub Flow)
+- **Date:** 2026-11-24  
+- **Decision:** Adopt a strict Feature Branch Workflow (GitHub Flow). The `main` branch remains protected/production-ready. Every feature or version iteration must be developed on a dedicated `feature/<name>` branch, built & verified with `npm run build`, and only then merged back into `main`.
+- **Reason:** Simulates real-world software engineering discipline, protects production code from half-finished or broken states, and ensures clean commit history for portfolio inspection by tech recruiters.
+- **Alternatives Considered:**
+  - Direct commits to `main` (Amateur practice; risks broken builds and unvetted code).
+  - Complex GitFlow (`develop`, `release`, `hotfix` branches) (Over-engineering for a single-developer learning portfolio).
+- **Trade-offs:** Requires discipline of branching, testing, and merging for each discrete feature.
