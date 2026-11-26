@@ -77,3 +77,14 @@ This log preserves all major decisions, their rationale, alternatives considered
   - Heavy Upfront Signup (Approach A) (High drop-off rate; asking for full postal address before user even browses).
   - NextAuth / Auth.js (More complex configuration and breaking changes across versions).
 - **Trade-offs:** Checkout and listing creation workflows must validate that required shipping/pickup profile fields are completed before finalizing transactions.
+
+---
+
+### Decision 008: `shadcn/ui` (`base-nova`), `react-hook-form` + `zod`, and `(auth)` Route Group
+- **Date:** 2026-11-27  
+- **Decision:** Adopt `shadcn/ui` v4 (`style: "base-nova"` backed by `@base-ui/react`) with `lucide-react` icons for accessible UI primitives, `react-hook-form` + `@hookform/resolvers` + `zod` for schema-driven form validation, and Next.js `(auth)` Route Group with Server Component page wrappers + Client Component forms.  
+- **Reason:** Industry-standard, zero-cost (¥0), accessible component primitives owned inside `src/components/ui/`, clean separation between Server Component session guards/metadata (`page.tsx`) and interactive form state (`components/auth/*`), and single-source-of-truth validation schemas in `src/lib/validations/auth.ts`.  
+- **Alternatives Considered:**
+  - Raw hand-styled Tailwind form elements (Inconsistent styling and higher maintenance overhead).
+  - Heavy paid or monolithic component libraries (Unnecessary bundle bloat and reduced customization).  
+- **Trade-offs:** `shadcn/ui` v4 `base-nova` uses `@base-ui/react` and the newer `Field` primitives instead of the legacy `form` primitive, requiring components to be installed incrementally as features need them.

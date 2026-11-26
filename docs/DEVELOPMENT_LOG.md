@@ -4,6 +4,86 @@ This is the project's working memory and daily handover history. Entries are rec
 
 ---
 
+### Development Session — 2026-11-27
+
+**Version:** V2 — Authentication & User Accounts  
+**Feature:** Frontend Auth Client, Register/Login Pages, Home Session UI (`AuthStatus`), and `shadcn/ui` Setup  
+**Objective:** Implement the Better Auth React client, Zod validation schemas, and functional Register, Login, and Home Sign-Out flows using `shadcn/ui` (`base-nova`), `react-hook-form`, and Next.js `(auth)` Route Group.
+
+**Work Completed:**
+- Created Better Auth React client in `src/lib/auth-client.ts` (`createAuthClient()`).
+- Initialized `shadcn/ui` (`style: "base-nova"` with `@base-ui/react` and `lucide-react`) via `components.json` and `src/lib/utils.ts`.
+- Added required UI primitives in `src/components/ui/`: `alert.tsx`, `button.tsx`, `card.tsx`, `field.tsx`, `input.tsx`, `label.tsx`, `separator.tsx`.
+- Installed `react-hook-form`, `zod`, and `@hookform/resolvers` for schema-driven form validation.
+- Defined `registerSchema` and `loginSchema` (with inferred TypeScript types) in `src/lib/validations/auth.ts`.
+- Built Next.js `(auth)` Route Group (`src/app/(auth)/layout.tsx`) with Server Component entry pages (`src/app/(auth)/register/page.tsx` and `src/app/(auth)/login/page.tsx`) exporting `metadata` and enforcing server-side `auth.api.getSession(...)` redirects for already-authenticated users.
+- Built Client Component forms `src/components/auth/register-form.tsx` (`authClient.signUp.email`) and `src/components/auth/login-form.tsx` (`authClient.signIn.email`) with password visibility toggle, live 8-character password check, and destructive `Alert` error display.
+- Built `src/components/auth/auth-status.tsx` (`useSession`, `signOut`) and integrated it into `src/app/page.tsx`.
+- Fixed CSS syntax errors in `src/app/globals.css` and resolved circular `--font-sans` variable to `var(--font-geist-sans)`.
+- Merged local `login` branch (`8262938`) into `feature/v2-authentication`.
+
+**Files Created:**
+- `components.json`
+- `src/lib/auth-client.ts`
+- `src/lib/utils.ts`
+- `src/lib/validations/auth.ts`
+- `src/app/(auth)/layout.tsx`
+- `src/app/(auth)/register/page.tsx`
+- `src/app/(auth)/login/page.tsx`
+- `src/components/auth/register-form.tsx`
+- `src/components/auth/login-form.tsx`
+- `src/components/auth/auth-status.tsx`
+- `src/components/ui/alert.tsx`
+- `src/components/ui/button.tsx`
+- `src/components/ui/card.tsx`
+- `src/components/ui/field.tsx`
+- `src/components/ui/input.tsx`
+- `src/components/ui/label.tsx`
+- `src/components/ui/separator.tsx`
+
+**Files Modified:**
+- `package.json`
+- `package-lock.json`
+- `src/app/globals.css`
+- `src/app/page.tsx`
+- `docs/ARCHITECTURE.md`
+- `docs/DECISIONS.md`
+- `docs/DEVELOPMENT_LOG.md`
+
+**Files Deleted:**
+- None (moved initial flat `/register` draft into `(auth)` Route Group).
+
+**Database Changes:**
+- None (existing `user`, `session`, `account`, `verification` tables unchanged).
+
+**Technical Concepts Learned:**
+- **Next.js Route Groups (`(auth)`):** Grouping `/register` and `/login` under a shared layout without adding `/auth` to the URL path.
+- **Server vs Client Auth Boundaries:** Keeping `page.tsx` as a Server Component for `metadata` and `auth.api.getSession(...)` redirects while isolating interactive `useForm` / `authClient` logic in `"use client"` components.
+- **`shadcn/ui` v4 (`base-nova`) `Field` + `react-hook-form` + `zod`:** Using the `Field` / `FieldError` primitives with `zodResolver` instead of the deprecated `form` primitive.
+- **Better Auth React Client:** Using `authClient.signUp.email`, `authClient.signIn.email`, `authClient.signOut`, and `authClient.useSession`.
+
+**Testing:**
+- Executed `npx tsc --noEmit`: passed with 0 errors.
+- Executed `npm run build` (after clearing stale `.next` cache): passed (`Compiled successfully in 19.3s`, `Finished TypeScript in 13.2s`, routes `/`, `/_not-found`, `/api/auth/[...all]`, `/login`, `/register`).
+- End-to-end browser verification of signup/login/signout and email verification pending next session.
+
+**Problems and Resolutions:**
+- Fixed 4 CSS syntax errors in `src/app/globals.css` (truncated `--color-foreground`/`--font-sans`, missing semicolon on `--sidebar-ring`, duplicated `@layer base` tail).
+- Cleared stale `.next` type cache that caused `.next/dev/types/validator.ts` to reference deleted `src/app/register/page.tsx`.
+- Corrected initial `Button` import in `register-form.tsx` from `@base-ui/react` to `@/components/ui/button`.
+
+**Current Status:**
+- Functional V2 Registration (`/register`), Login (`/login`), and Home Session/Sign-Out (`AuthStatus`) implemented and build-verified on `feature/v2-authentication` (Commit: `8262938`).
+- Incomplete V2 work: Email Verification (`Nodemailer + Gmail SMTP` with Console fallback + `requireEmailVerification`), `try/catch` wrapper in `RegisterForm.onSubmit`, final Indigo + Vermilion Minimal Flat styling pass, live browser E2E testing, and final V2 merge into `main`.
+
+**Next Session — Exact Starting Point:**
+1. Branch & Remote Sync Check: Verify on `feature/v2-authentication`, clean up merged local branch (`git branch -d login`), and push `git push origin feature/v2-authentication`.
+2. Live Browser Smoke Test: Run `npm run dev`, test `/register` → `/` (session + Sign Out) → `/login` at `http://localhost:3000`, and inspect DB rows via `npx drizzle-kit studio`.
+3. Task 1 (Next Feature): Implement Email Verification in `src/lib/auth.ts` (`emailVerification` + `requireEmailVerification: true`) using `Nodemailer + Gmail SMTP` with terminal console fallback (¥0 cost), plus `"Check your email"` and `"Resend verification"` UX in `RegisterForm` and `LoginForm` (and add `try/catch` to `RegisterForm.onSubmit`).
+4. Task 2: Apply final Indigo + Vermilion Minimal Flat styling pass to `src/app/globals.css`, `(auth)` layout, and `/` landing page, verify `npm run build`, and complete V2.
+
+---
+
 ### Development Session — 2026-11-25
 
 **Version:** V2 — Authentication & User Accounts  
